@@ -1,8 +1,8 @@
 
-type ErrorResponse = {
-  error: string
+interface IErrorResponse<T> {
+  error: T
 }
 
 export type {
-  ErrorResponse
+  IErrorResponse
 }

@@ -3,13 +3,7 @@ import type { YogaInitialContext } from "graphql-yoga";
 import UserModel from "./user.model";
 import type { User } from "./users.mongo";
 
-import type { UserToken, UserError, UserAuthResult } from "./userAuth";
-
-interface IAddNewUserArgs extends User {}
-interface ILoginArgs {
-  username: string,
-  password: string
-}
+import type { UserToken, UserError, UserAuthResult, UserAuthArgs } from "./userAuth";
 
 const userResolvers = {
   Query: {
@@ -22,7 +16,7 @@ const userResolvers = {
   },
 
   Mutation: {
-    signup: async (_: unknown, args: IAddNewUserArgs, ctx: YogaInitialContext) => {
+    signup: async (_: unknown, args: UserAuthArgs, ctx: YogaInitialContext) => {
       const { username, password } = args;
       const response = await UserModel.addNewUser(username, password);
 
@@ -36,7 +30,7 @@ const userResolvers = {
       return response;
     },
 
-    login: async (_: unknown, args: ILoginArgs, ctx: YogaInitialContext) => {
+    login: async (_: unknown, args: UserAuthArgs, ctx: YogaInitialContext) => {
       const { username, password } = args;
       const result = await UserModel.loginUser(username, password);
 

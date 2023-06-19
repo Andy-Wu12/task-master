@@ -1,6 +1,6 @@
 import Users from "./users.mongo";
 import type { User } from "./users.mongo";
-import type { UserAuthResult } from "./userAuth";
+import type { UserAuthArgs, UserAuthResult, UserError } from "./userAuth";
 
 import { hashText } from "../../util/auth";
 
@@ -8,6 +8,15 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 const DEFAULT_ID = -1;
+
+function createUserAuthError(errors: UserAuthArgs): UserError {
+  return {
+    error: {
+      username: errors.username,
+      password: errors.password
+    }
+  }
+}
 
 async function getAllUsers(): Promise<User[]> {
   return Users.find();
@@ -31,8 +40,11 @@ async function addNewUser(username: string, password: string): Promise<UserAuthR
   const minLength = 4; // Keeping this short for demo purposes
 
   if(password.length < minLength) {
-    return { error: 'Password length needs to be at least 4 characters' };
-  }
+    return createUserAuthError({
+        username: '',
+        password: 'Password length needs to be at least 4 characters'
+      });
+    }
 
   const hashed = await hashText(password);
 
@@ -46,9 +58,15 @@ async function addNewUser(username: string, password: string): Promise<UserAuthR
     await saveUser(newUser);
   } catch(e: any) {
     if(e.name === 'MongoServerError' && e.code === 11000) {
-      return { error: 'User already exists!' };
+      return createUserAuthError({
+        username: 'User already exists',
+        password: ''
+      });
     } else {
-      return { error: 'Unexpected error occurred.' };
+      return createUserAuthError({
+        username: 'Unexpected error',
+        password: 'Unexpected error'
+      });
     }
   }
 
@@ -59,11 +77,17 @@ async function loginUser(username: string, password: string): Promise<UserAuthRe
   const user = await Users.findOne({username: username});
 
   if(!user) {
-    return { error: 'User not found.' };
+    return createUserAuthError({
+      username: 'User does not exist',
+      password: ''
+    });
   } else {
     const valid = await bcrypt.compare(password, user.password);
     if(!valid) {
-      return { error: 'Invalid username/password combination.' };
+      return createUserAuthError({
+        username: 'Invalid username and password combination',
+        password: ''
+      });
     } else {
       return {
         token: jwt.sign(
