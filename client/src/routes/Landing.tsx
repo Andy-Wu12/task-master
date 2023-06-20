@@ -19,13 +19,15 @@ export default function Landing() {
 
   return (
     <>
-      <div className="Header-text">
-        <h1>Task Master</h1>
-        <h2>Task Management Made Easy and Free</h2> <br/>
+      <div className="pageCenterContainer">
+        <div>
+          <h1>Task Master</h1>
+          <h2>Task Management Made Easy and Free</h2> <br/>
+          <Button variant="primary">
+            <a href='/auth' style={{color: 'inherit'}}>Get Started</a>
+          </Button>{' '}
+        </div>
       </div>
-      <Button variant="primary">
-        <a href='/auth' style={{color: 'inherit'}}>Get Started</a>
-      </Button>{' '}
     </>
   );
 }
