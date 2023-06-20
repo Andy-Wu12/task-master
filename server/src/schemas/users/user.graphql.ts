@@ -17,7 +17,12 @@ const userType = /* GraphQL */ `
   }
 
   type UserError {
-    error: String
+    error: AuthFormError!
+  }
+
+  type AuthFormError {
+    username: String,
+    password: String
   }
 
   type UserToken {

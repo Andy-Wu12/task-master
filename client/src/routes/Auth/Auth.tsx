@@ -46,16 +46,16 @@ function SignUpForm() {
       <Form aria-label='form' noValidate validated={auth.validated} onSubmit={auth.submitSignup}> 
         <Form.Group className='mb-3' controlId='formUsername'>
           <Form.Label>Username</Form.Label>
-          <Form.Control type='text' name='username' placeholder='username123' required />
+          <Form.Control type='text' name='username' placeholder='username123' required isInvalid={auth.error.username !== null} />
           <Form.Control.Feedback type='invalid'>
-            Invalid username
+            {auth.error.username}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-3' controlId='formPassword'>
           <Form.Label>Password</Form.Label>
-          <Form.Control type='password' name='password' placeholder='password' minLength={MIN_PASSWORD_LENGTH} required />
+          <Form.Control type='password' name='password' placeholder='password' minLength={MIN_PASSWORD_LENGTH} required isInvalid={auth.error.password !== null}/>
           <Form.Control.Feedback type='invalid'>
-            Invalid password length!
+            {auth.error.password}
           </Form.Control.Feedback>
           <Form.Text className='text-muted'>
             Minimum password length is {MIN_PASSWORD_LENGTH}
@@ -78,17 +78,17 @@ function LogInForm() {
       <Form aria-label='form' noValidate validated={auth.validated} onSubmit={auth.submitLogin}>
         <Form.Group className='mb-3' controlId='formUsername' >
           <Form.Label>Username</Form.Label>
-          <Form.Control type='text' name='username' placeholder='username123' required />
+          <Form.Control type='text' name='username' placeholder='username123' required isInvalid={auth.error.username !== null} />
           <Form.Control.Feedback type='invalid'>
-            Invalid username
+          {auth.error.username}
           </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='mb-3' controlId='formPassword' >
           <Form.Label>Password</Form.Label>
-          <Form.Control type='password' name='password' placeholder='password' required />
+          <Form.Control type='password' name='password' placeholder='password' required isInvalid={auth.error.password !== null} />
           <Form.Control.Feedback type='invalid'>
-            Password is required
+          {auth.error.password}
           </Form.Control.Feedback>
         </Form.Group>
         <Button variant='primary' type='submit'>

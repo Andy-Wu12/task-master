@@ -43,7 +43,7 @@ function useAuth() {
     const form = event.currentTarget;
 
     setValidated(true);
-    // TODO: Replace with custom validation functionality, setting custom error key names, i.e 'email', 'username'
+    // TODO: Replace with custom validation functionality, setting custom error key names, i.e 'username', 'password'
     if(form.checkValidity()) {
       return form;
     }
@@ -69,7 +69,10 @@ function useAuth() {
               token
           }
           ... on UserError {
-              error
+              error {
+                username
+                password
+              }
           }
         }
       }`;
@@ -86,7 +89,10 @@ function useAuth() {
       if(json.data.signup) {
         const queryResult = json.data.signup;
         if('error' in queryResult) {
-          // TODO: Handle errors
+          errorDispatch({
+            type: 'set_form_errors',
+            error: queryResult.error
+          })
         } else {
           updateUserContext(queryResult);
         }
@@ -103,7 +109,7 @@ function useAuth() {
       const password = data.get('password');
       
       const queryBody = `mutation {
-        login(username: "${username} password: "${password}") {
+        login(username: "${username}" password: "${password}") {
           ... on User {
             username
           }
@@ -114,7 +120,10 @@ function useAuth() {
               }
           }
           ... on UserError {
-              error
+              error {
+                username
+                password
+              }
           }
         }
       }`;
@@ -133,7 +142,10 @@ function useAuth() {
       if(json.data.login) {
         const queryResult = json.data.login;
         if('error' in queryResult) {
-          // TODO: Handle errors
+          errorDispatch({
+            type: 'set_form_errors',
+            error: queryResult.error
+          })
         } else {
           updateUserContext(queryResult.user);
         }

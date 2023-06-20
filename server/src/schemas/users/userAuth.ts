@@ -1,7 +1,12 @@
-import { ErrorResponse } from "../types/errorResponse";
+import { IErrorResponse } from "../types/errorResponse";
 import type { User } from "./users.mongo";
 
-type UserError = ErrorResponse
+type UserAuthArgs = {
+  username: string,
+  password: string
+}
+
+type UserError = IErrorResponse<UserAuthArgs>
 
 type UserToken = {
   token: string,
@@ -11,6 +16,7 @@ type UserToken = {
 type UserAuthResult = User | UserToken | UserError;
 
 export type {
+  UserAuthArgs,
   UserError,
   UserToken,
   UserAuthResult

@@ -138,7 +138,10 @@ describe('User API', () => {
               token
           }
           ... on UserError {
-              error
+              error {
+                username
+                password
+              }
           }
         }
       }`;
