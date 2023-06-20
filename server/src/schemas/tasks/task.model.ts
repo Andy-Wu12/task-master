@@ -5,6 +5,14 @@ import type { Task } from './task.mongo'
 
 const DEFAULT_LATEST_TASK_ID = -1;
 
+type TaskUpdateArgs = {
+  id: number,
+  title?: string,
+  description?: string,
+  status?: string,
+  dueDate?: string,
+}
+
 async function getLatestTaskNumber(): Promise<number> {
   const latestTask = await Tasks.findOne().sort('-id');
 
@@ -49,20 +57,38 @@ async function createTask(title: string, description: string, dueDate: string, c
   return newTask;
 }
 
+async function getAllTasks(): Promise<Task[]> {
+  return await Tasks.find({}).lean();
+}
+
+async function getTaskById(id: number): Promise<Task | null> {
+  return await Tasks.findOne({id: id}).lean();
+}
+
 async function getTasksByUser(userId: number, filter: string | null = null): Promise<Task[]> {
-  return await Tasks.find({creatorId: userId}).sort(filter);
+  return await Tasks.find({creatorId: userId}).lean().sort(filter);
 }
 
 async function deleteTask(id: number): Promise<Task | null> {
   return await Tasks.findOneAndDelete({id: id})
 }
 
-async function editTask(task: Task): Promise<Task | null> {
-  return await saveTask(task);
+async function editTask(task: TaskUpdateArgs): Promise<Task | null> {
+  let taskData: Task | null = await TaskModel.getTaskById(task.id);
+  
+  if(!taskData) {
+    return null;
+  }
 
+  taskData = {...taskData, ...task};
+  await saveTask(taskData);
+
+  return taskData;
 }
 
 const TaskModel = {
+  getAllTasks,
+  getTaskById,
   getTasksByUser,
   createTask,
   deleteTask,
@@ -70,3 +96,7 @@ const TaskModel = {
 }
 
 export default TaskModel;
+
+export type {
+  TaskUpdateArgs
+}

@@ -1,0 +1,37 @@
+
+const taskType = /* GraphQL */ `
+  type Query {
+    tasks: [Task!]!,
+    tasksForUser(userId: ID!, filter: String!): [Task!]!
+  }
+
+  type Mutation {
+    createTask(
+      title: String!,
+      description: String!,
+      dueDate: String!,
+      creatorId: Int!
+    ): Task,
+    updateTask(newData: TaskUpdateInput!): Task,
+    deleteTask(id: ID!): Task
+  }
+
+  input TaskUpdateInput {
+    id: Int!,
+    title: String,
+    description: String,
+    status: String,
+    dueDate: String,
+  }
+
+  type Task {
+    id: Int!,
+    title: String!,
+    description: String!,
+    status: String!,
+    dueDate: String!,
+    creatorId: Int!
+  }
+`
+
+export default taskType;
