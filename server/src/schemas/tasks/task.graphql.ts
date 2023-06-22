@@ -28,9 +28,14 @@ const taskType = /* GraphQL */ `
     id: Int!,
     title: String!,
     description: String!,
-    status: String!,
+    status: TaskStatus!,
     dueDate: String!,
     creatorId: Int!
+  }
+
+  enum TaskStatus {
+    IN_PROGRESS,
+    COMPLETED
   }
 `
 

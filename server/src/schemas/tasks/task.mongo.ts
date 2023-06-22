@@ -4,9 +4,14 @@ interface Task {
   id: number,
   title: string,
   description: string,
-  status: string,
+  status: TaskStatus,
   dueDate: string,
   creatorId: number
+}
+
+enum TaskStatus {
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED"
 }
 
 const taskSchema = new mongoose.Schema<Task>({
@@ -25,6 +30,8 @@ const taskSchema = new mongoose.Schema<Task>({
   },
   status: {
     type: String,
+    default: TaskStatus.IN_PROGRESS,
+    enum: Object.values(TaskStatus),
     required: true
   },
   dueDate: {
@@ -42,6 +49,10 @@ const Tasks = mongoose.model<Task>('task', taskSchema);
 
 export default Tasks;
 
+export {
+  TaskStatus
+}
+
 export type {
-  Task
+  Task,
 }

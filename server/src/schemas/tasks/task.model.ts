@@ -1,7 +1,7 @@
 import Users from '../users/users.mongo';
 import Tasks from './task.mongo';
 
-import type { Task } from './task.mongo'
+import { Task, TaskStatus } from './task.mongo'
 
 const DEFAULT_LATEST_TASK_ID = -1;
 
@@ -9,7 +9,7 @@ type TaskUpdateArgs = {
   id: number,
   title?: string,
   description?: string,
-  status?: string,
+  status?: TaskStatus,
   dueDate?: string,
 }
 
@@ -44,7 +44,7 @@ async function createTask(title: string, description: string, dueDate: string, c
     description: description,
     dueDate: dueDate,
     creatorId: creatorId,
-    status: 'In-Progress'
+    status: TaskStatus.IN_PROGRESS
   }
 
   try {
