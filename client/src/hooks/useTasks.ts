@@ -86,17 +86,43 @@ export default function useTasks() {
   }, [username]);
 
   const sortTasksByProperty = useCallback((property: SortOptions) => {
-    console.log(`sorting with key ${property}`);
-    const compareFn = (task1: Task, task2: Task) => {
+    const compareString = (task1: Task, task2: Task) => {
       if(task1[property] > task2[property]) {
         return 1;
       } else if(task1[property] < task2[property]) {
         return -1;
       } 
       return 0;
-    };
+    }
 
-    setTasks(userTasks.sort(compareFn));
+    const compareStatus = (task1: Task, task2: Task) => {
+      if(task1.status === task2.status) {
+        return 0;
+      } else if(task1.status === TaskStatus.COMPLETED) {
+        return 1
+      }
+      return -1;
+    }
+
+    const compareDueDate = (task1: Task, task2: Task) => {
+      const date1 = Date.parse(task1.dueDate);
+      const date2 = Date.parse(task2.dueDate);
+
+      if(date1 > date2) {
+        return 1;
+      } else if(date1 < date2) {
+        return -1;
+      }
+      return 0;
+    }
+
+    const compareFunctions = {
+      "title": compareString,
+      "status": compareStatus,
+      "dueDate": compareDueDate,
+    }
+
+    setTasks(userTasks.sort(compareFunctions[property]));
     navigate('/dashboard/tasks');
     
   }, [userTasks]);
