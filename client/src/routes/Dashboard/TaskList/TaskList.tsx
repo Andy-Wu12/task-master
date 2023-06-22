@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import type { FormEventHandler, MouseEvent } from 'react';
+
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 import useTasks, { TaskStatus } from "../../../hooks/useTasks"
 import type { SortOptions, Task } from '../../../hooks/useTasks';
@@ -10,7 +12,9 @@ import TaskSortOption from './SortButton';
 export default function TaskList() {
   const {
     userTasks,
-    sortTasksByProperty
+    sortTasksByProperty,
+    updateTask,
+    deleteTask
   } = useTasks();
 
   function sortOnChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -22,7 +26,11 @@ export default function TaskList() {
       <TaskSortOption onChange={sortOnChange} />
       <div className='taskList'>
         {userTasks.map((task: Task) => {
-          return <TaskListItem key={task.id} task={task} />
+          return (
+            <div key={task.id}> 
+              <TaskListItem task={task} updateTask={updateTask} deleteTask={deleteTask} />
+            </div>
+          )
         })}
       </div>
     </>
@@ -30,10 +38,12 @@ export default function TaskList() {
 }
 
 interface TaskListItemProps {
-  task: Task
+  task: Task,
+  updateTask: FormEventHandler,
+  deleteTask: (taskId: number) => Promise<void>
 }
 
-function TaskListItem({task}: TaskListItemProps) {
+function TaskListItem({task, updateTask, deleteTask}: TaskListItemProps) {
   const {
     id,
     title,
@@ -42,6 +52,10 @@ function TaskListItem({task}: TaskListItemProps) {
     dueDate,
     creatorId
   } = task;
+
+  const onDeleteClick = async (_: MouseEvent<HTMLButtonElement>) => {
+    await deleteTask(id);
+  }
 
   return (
     <div className='taskListItem'>
@@ -53,6 +67,7 @@ function TaskListItem({task}: TaskListItemProps) {
           <input id={`checkbox-${id}`} type='checkbox' checked={status === TaskStatus.COMPLETED} readOnly /> &nbsp;
           <label htmlFor={`checkbox-${id}`}>{status}</label>
         </Card.Body>
+        <Button variant="danger" onClick={onDeleteClick}>Delete Task</Button>
       </Card>
     </div>
   )
