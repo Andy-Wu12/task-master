@@ -52,11 +52,6 @@ export default function useTasks() {
     fetchUserTasks();
   }, [username, fetchUserTasks]);
 
-  // Re-render when tasks updated (usually by sort function)
-  useEffect(() => {
-
-  }, [userTasks]);
-
   const createTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
@@ -82,8 +77,29 @@ export default function useTasks() {
 
     await queryGraphQL(queryBody);
     // const json = await response.json();
+    navigate('/dashboard/tasks');
 
-  }, [username]);
+  }, [username, navigate]);
+
+  const updateTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+
+  }, []);
+
+  const deleteTask = useCallback(async (taskId: number) => {
+    const queryBody = `mutation {
+      deleteTask(id: ${taskId}) {
+        title
+        description
+        status
+        dueDate
+        creatorId
+      }
+    }`;
+
+    await queryGraphQL(queryBody);
+    await fetchUserTasks();
+    
+  }, [fetchUserTasks]);
 
   const sortTasksByProperty = useCallback((property: SortOptions) => {
     const compareString = (task1: Task, task2: Task) => {
@@ -133,6 +149,8 @@ export default function useTasks() {
     userTasks,
     createTask,
     fetchUserTasks,
+    updateTask,
+    deleteTask,
     sortTasksByProperty
   }
 }
