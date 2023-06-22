@@ -2,7 +2,7 @@
 const taskType = /* GraphQL */ `
   type Query {
     tasks: [Task!]!,
-    tasksForUser(userId: ID!, filter: String!): [Task!]!
+    tasksForUser(username: String!, filter: String): [Task!]!
   }
 
   type Mutation {

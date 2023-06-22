@@ -65,8 +65,17 @@ async function getTaskById(id: number): Promise<Task | null> {
   return await Tasks.findOne({id: id}).lean();
 }
 
-async function getTasksByUser(userId: number, filter: string | null = null): Promise<Task[]> {
+async function getTasksByUserId(userId: number, filter: string | null = null): Promise<Task[]> {
   return await Tasks.find({creatorId: userId}).lean().sort(filter);
+}
+
+async function getTasksByUsername(username: string, filter: string | null = null): Promise<Task[]> {
+  const user = await Users.findOne({username: username});
+  if(user) {
+    return await getTasksByUserId(user.id);
+  }
+
+  return [];
 }
 
 async function deleteTask(id: number): Promise<Task | null> {
@@ -89,7 +98,8 @@ async function editTask(task: TaskUpdateArgs): Promise<Task | null> {
 const TaskModel = {
   getAllTasks,
   getTaskById,
-  getTasksByUser,
+  getTasksByUserId,
+  getTasksByUsername,
   createTask,
   deleteTask,
   editTask,

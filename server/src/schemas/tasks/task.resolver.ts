@@ -2,6 +2,7 @@ import TaskModel from "./task.model";
 
 import type { Task } from "./task.mongo";
 import type { TaskUpdateArgs } from "./task.model";
+import UserModel from "../users/user.model";
 
 type CreateTaskArgs = {
   title: string,
@@ -16,9 +17,10 @@ const taskResolvers = {
       return await TaskModel.getAllTasks();
     },
     
-    tasksForUser: async (_: unknown, args: { userId: number, filter: string | null }) => {
-      const { userId, filter } = args;
-      return await TaskModel.getTasksByUser(userId, filter);
+    tasksForUser: async (_: unknown, args: { username: string, filter: string | null }) => {
+      const { username, filter } = args;
+
+      return await TaskModel.getTasksByUsername(username, filter);
     }
   },
 
