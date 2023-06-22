@@ -8,7 +8,7 @@ type CreateTaskArgs = {
   title: string,
   description: string,
   dueDate: string,
-  creatorId: number
+  creatorName: string
 }
 
 const taskResolvers = {
@@ -26,9 +26,9 @@ const taskResolvers = {
 
   Mutation: {
     createTask: async (_: unknown, args: CreateTaskArgs) => {
-      const { title, description, dueDate, creatorId } = args;
+      const { title, description, dueDate, creatorName } = args;
 
-      const response = await TaskModel.createTask(title, description, dueDate, creatorId);
+      const response = await TaskModel.createTask(title, description, dueDate, creatorName);
 
       return response;
     },

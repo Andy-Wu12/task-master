@@ -31,8 +31,8 @@ async function saveTask(task: Task): Promise<Task | null> {
   })
 }
 
-async function createTask(title: string, description: string, dueDate: string, creatorId: number): Promise<Task | null> {
-  const user = await Users.findOne({id: creatorId});
+async function createTask(title: string, description: string, dueDate: string, creatorName: string): Promise<Task | null> {
+  const user = await Users.findOne({username: creatorName});
 
   if(!user) {
     return null;
@@ -43,7 +43,7 @@ async function createTask(title: string, description: string, dueDate: string, c
     title: title,
     description: description,
     dueDate: dueDate,
-    creatorId: creatorId,
+    creatorId: user.id,
     status: TaskStatus.IN_PROGRESS
   }
 

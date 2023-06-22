@@ -10,7 +10,7 @@ const taskType = /* GraphQL */ `
       title: String!,
       description: String!,
       dueDate: String!,
-      creatorId: Int!
+      creatorName: String!
     ): Task,
     updateTask(newData: TaskUpdateInput!): Task,
     deleteTask(id: ID!): Task
