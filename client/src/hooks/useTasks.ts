@@ -80,8 +80,8 @@ export default function useTasks() {
       }
     }`;
 
-    const response = await queryGraphQL(queryBody);
-    const json = await response.json();
+    await queryGraphQL(queryBody);
+    // const json = await response.json();
 
   }, [username]);
 
@@ -95,10 +95,12 @@ export default function useTasks() {
       return 0;
     }
 
+    // Scalable alternative for this function could just be to group by status instead of defining a sort order
     const compareStatus = (task1: Task, task2: Task) => {
       if(task1.status === task2.status) {
         return 0;
       } else if(task1.status === TaskStatus.COMPLETED) {
+        // Completed tasks come AFTER all in-progress ones
         return 1
       }
       return -1;
@@ -125,7 +127,7 @@ export default function useTasks() {
     setTasks(userTasks.sort(compareFunctions[property]));
     navigate('/dashboard/tasks');
     
-  }, [userTasks]);
+  }, [userTasks, navigate]);
 
   return {
     userTasks,
