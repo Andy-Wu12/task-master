@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { queryGraphQL } from './requests';
+
 interface Task {
   id: number,
   title: string,
@@ -36,14 +38,7 @@ export default function useTasks() {
       }
     }`
 
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/graphql`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/graphql'
-      },
-      body: queryBody
-    });
+    const response = await queryGraphQL(queryBody);
 
     const json = await response.json();
     setTasks(json.data.tasksForUser);
