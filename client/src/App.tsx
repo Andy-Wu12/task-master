@@ -12,7 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import useAuth from './hooks/useAuth';
 import CreateTaskForm from './routes/Dashboard/CreateTaskForm';
-import TaskList from './routes/Dashboard/TaskList';
+import TaskList from './routes/Dashboard/TaskList/TaskList';
 
 function App() {
   const auth = useAuth();

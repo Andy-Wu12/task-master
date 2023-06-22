@@ -1,0 +1,10 @@
+
+.taskList {
+  text-align: center;
+}
+
+.taskListItem {
+  width: 50vw;
+  margin: auto;
+  padding-top: 10px;
+}
