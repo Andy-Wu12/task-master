@@ -5,12 +5,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Landing from './routes/Landing';
-import Dashboard from './routes/Dashboard';
+import Dashboard from './routes/Dashboard/Dashboard';
 import AuthenticationForm from './routes/Auth/Auth';
 
 import ProtectedRoute from './components/ProtectedRoute';
 
 import useAuth from './hooks/useAuth';
+import CreateTaskForm from './routes/Dashboard/CreateTaskForm';
+import TaskList from './routes/Dashboard/TaskList';
 
 function App() {
   const auth = useAuth();
@@ -31,7 +33,10 @@ function App() {
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
-        }/>
+        }>
+          <Route path='create-task' element={<CreateTaskForm />} />
+          <Route path='tasks' element={<TaskList />} />
+        </Route >
       </Routes>
     </div>
   );
