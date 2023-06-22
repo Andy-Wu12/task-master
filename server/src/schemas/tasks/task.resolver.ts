@@ -28,6 +28,10 @@ const taskResolvers = {
     createTask: async (_: unknown, args: CreateTaskArgs) => {
       const { title, description, dueDate, creatorName } = args;
 
+      if(!(title && description && dueDate && creatorName)) {
+        return null;
+      }
+
       const response = await TaskModel.createTask(title, description, dueDate, creatorName);
 
       return response;
