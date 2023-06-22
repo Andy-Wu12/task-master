@@ -24,15 +24,17 @@ export default function AuthenticationForm() {
 
 
   return (
-    <div className='auth-wrapper'>
-      <Form.Check 
-        type={'checkbox'}
-        id={'toggleForm'}
-        label={'Signed Up?'}
-        onChange={auth.toggleForm}
-      />
-      
-      {auth.isLogin ? <LogInForm /> : <SignUpForm />}
+    <div className='pageCenterContainer'>
+      <div className='auth-wrapper'>
+        <Form.Check 
+          type={'checkbox'}
+          id={'toggleForm'}
+          label={'Signed Up?'}
+          onChange={auth.toggleForm}
+        />
+        
+        {auth.isLogin ? <LogInForm /> : <SignUpForm />}
+      </div>
     </div>
   )
 }
