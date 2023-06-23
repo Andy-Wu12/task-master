@@ -71,7 +71,6 @@ export default function useTasks() {
         description
         status
         dueDate
-        creatorId
       }
     }`;
 
@@ -82,6 +81,33 @@ export default function useTasks() {
   }, [username, navigate]);
 
   const updateTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+    const id = data.get('id');
+    const title = data.get('title');
+    const desc = data.get('description');
+    const dueDate = data.get('dueDate');
+    const status = data.get('status');
+    
+    const queryBody = `mutation {
+      updateTask(newData: {
+        id: ${id}
+        title: "${title}"
+        description: "${desc}"
+        status: "${status === 'on' ? TaskStatus.COMPLETED : TaskStatus.IN_PROGRESS }"
+        dueDate: "${dueDate}" 
+      }) {
+        title
+        description
+        status
+        dueDate
+      }
+    }`;
+
+    await queryGraphQL(queryBody);
+    await fetchUserTasks();
+    
   }, []);
 
   const deleteTask = useCallback(async (taskId: number) => {

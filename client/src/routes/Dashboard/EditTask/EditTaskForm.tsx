@@ -15,7 +15,8 @@ export default function EditTaskForm({task, updateTask}: EditTaskProps) {
 
   return (
     <>
-      <Form aria-label='form' noValidate validated={true} onSubmit={updateTask}> 
+      <Form aria-label='form' noValidate validated={true} onSubmit={updateTask}>
+        <input type='hidden' value={task.id} name='id' />
         <Form.Group className='mb-3' controlId='formTitle'>
           <Form.Label>Title</Form.Label>
           <Form.Control type='text' name='title' defaultValue={task.title} required />
@@ -30,7 +31,7 @@ export default function EditTaskForm({task, updateTask}: EditTaskProps) {
         </Form.Group>
         <Form.Group className='mb-3' controlId='form'>
           <p>Task is currently <span style={{fontWeight: 'bolder'}}>{task.status}</span></p>
-          Is it still completed? <label htmlFor={`checkbox-input-${task.id}`}></label>
+          Is it completed? <label htmlFor={`checkbox-input-${task.id}`}></label>
           <input name='status' id={`checkbox-input-${task.id}`} type='checkbox' defaultChecked={task.status === TaskStatus.COMPLETED} /> &nbsp;
         </Form.Group>
         <Button variant='primary' type='submit'>
