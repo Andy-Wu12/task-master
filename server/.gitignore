@@ -5,3 +5,7 @@ node_modules/
 # production
 build/
 .env
+
+# GCP
+.gcloudignore
+app.yaml
