@@ -82,7 +82,6 @@ export default function useTasks() {
   }, [username, navigate]);
 
   const updateTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
-
   }, []);
 
   const deleteTask = useCallback(async (taskId: number) => {

@@ -36,7 +36,7 @@ function App() {
         }>
           <Route path='create-task' element={<CreateTaskForm />} />
           <Route path='tasks' element={<TaskList />} />
-        </Route >
+        </Route>
       </Routes>
     </div>
   );
