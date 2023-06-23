@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { FormEventHandler, MouseEvent } from 'react';
 
 import Card from 'react-bootstrap/Card';
@@ -8,6 +9,7 @@ import type { SortOptions, Task } from '../../../hooks/useTasks';
 
 import './TaskList.css';
 import TaskSortOption from './SortButton';
+import EditTaskModal from '../EditTask/EditTaskModal';
 
 export default function TaskList() {
   const {
@@ -44,6 +46,8 @@ interface TaskListItemProps {
 }
 
 function TaskListItem({task, updateTask, deleteTask}: TaskListItemProps) {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const {
     id,
     title,
@@ -53,8 +57,16 @@ function TaskListItem({task, updateTask, deleteTask}: TaskListItemProps) {
     creatorId
   } = task;
 
-  const onDeleteClick = async (_: MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteClick = async (_: MouseEvent<HTMLButtonElement>) => {
     await deleteTask(id);
+  }
+
+  const handleEditClick = () => {
+    setShowModal(true);
+  }
+
+  const handleHideModal = () => {
+    setShowModal(false);
   }
 
   return (
@@ -67,8 +79,11 @@ function TaskListItem({task, updateTask, deleteTask}: TaskListItemProps) {
           <input id={`checkbox-${id}`} type='checkbox' checked={status === TaskStatus.COMPLETED} readOnly /> &nbsp;
           <label htmlFor={`checkbox-${id}`}>{status}</label>
         </Card.Body>
-        <Button variant="danger" onClick={onDeleteClick}>Delete Task</Button>
+        <Button variant='info' onClick={handleEditClick}>Edit</Button>
+        <Button variant='danger' onClick={handleDeleteClick}>Delete</Button>
       </Card>
+
+      <EditTaskModal show={showModal} onHide={handleHideModal} task={task} updateTask={updateTask} />
     </div>
   )
 }

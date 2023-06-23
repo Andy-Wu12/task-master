@@ -8,3 +8,7 @@
   margin: auto;
   padding: 10px 0;
 }
+
+.modal {
+  --bs-modal-bg: #343434;
+}
