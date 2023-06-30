@@ -45,7 +45,7 @@ function SignUpForm() {
   return (
     <>
       <h1> Sign Up </h1>
-      <Form aria-label='form' noValidate validated={auth.validated} onSubmit={auth.submitSignup}> 
+      <Form aria-label='form' noValidate validated={auth.validator.validated} onSubmit={auth.submitSignup}> 
         <Form.Group className='mb-3' controlId='formUsername'>
           <Form.Label>Username</Form.Label>
           <Form.Control type='text' name='username' placeholder='username123' required isInvalid={auth.error.username !== null} />
@@ -77,7 +77,7 @@ function LogInForm() {
   return (
     <>
       <h1> Log In </h1>
-      <Form aria-label='form' noValidate validated={auth.validated} onSubmit={auth.submitLogin}>
+      <Form aria-label='form' noValidate validated={auth.validator.validated} onSubmit={auth.submitLogin}>
         <Form.Group className='mb-3' controlId='formUsername' >
           <Form.Label>Username</Form.Label>
           <Form.Control type='text' name='username' placeholder='username123' required isInvalid={auth.error.username !== null} />

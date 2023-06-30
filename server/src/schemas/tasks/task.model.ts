@@ -31,6 +31,19 @@ async function saveTask(task: Task): Promise<Task | null> {
   })
 }
 
+function cleanTaskUpdateArgs(task: TaskUpdateArgs): TaskUpdateArgs {
+  const sanitizedTask = {...task};
+
+  for(const prop in sanitizedTask) {
+    const propVal = sanitizedTask[prop as keyof TaskUpdateArgs];
+    if(!propVal) {
+      delete sanitizedTask[prop as keyof TaskUpdateArgs];
+    }
+  }
+
+  return sanitizedTask;
+}
+
 async function createTask(title: string, description: string, dueDate: string, creatorName: string): Promise<Task | null> {
   const user = await Users.findOne({username: creatorName});
 
@@ -89,7 +102,9 @@ async function editTask(task: TaskUpdateArgs): Promise<Task | null> {
     return null;
   }
 
-  taskData = {...taskData, ...task};
+  const cleanedTask: TaskUpdateArgs = cleanTaskUpdateArgs(task);
+
+  taskData = {...taskData, ...cleanedTask};
   await saveTask(taskData);
 
   return taskData;

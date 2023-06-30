@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 
 import { queryGraphQL } from './requests';
+import useFormValidator from './useFormValidator';
 
 // Reduce code duplication by figuring out way to share type defs between client / server codebases
 interface Task {
@@ -26,6 +27,8 @@ export default function useTasks() {
   const [userTasks, setTasks] = useState<Task[]>([]);
   
   const navigate = useNavigate();
+  const validator = useFormValidator();
+
   const authContext = useContext(AuthContext);
   const username = authContext.user?.username;
 
@@ -55,6 +58,12 @@ export default function useTasks() {
   const createTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
+    const form = validator.validateForm(event);
+
+    if(form === null) {
+      return;
+    }
+
     const data = new FormData(event.currentTarget);
     const title = data.get('title');
     const desc = data.get('description');
@@ -83,6 +92,12 @@ export default function useTasks() {
   const updateTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const form = validator.validateForm(event);
+
+    if(form === null) {
+      return;
+    }
+    
     const data = new FormData(event.currentTarget);
     const id = data.get('id');
     const title = data.get('title');
@@ -171,6 +186,7 @@ export default function useTasks() {
   }, [userTasks, navigate]);
 
   return {
+    validator,
     userTasks,
     createTask,
     fetchUserTasks,
