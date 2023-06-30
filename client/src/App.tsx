@@ -14,6 +14,8 @@ import useAuth from './hooks/useAuth';
 import CreateTaskForm from './routes/Dashboard/CreateTaskForm';
 import TaskList from './routes/Dashboard/TaskList/TaskList';
 
+import Error404 from './routes/404';
+
 function App() {
   const auth = useAuth();
 
@@ -37,6 +39,7 @@ function App() {
           <Route path='create-task' element={<CreateTaskForm />} />
           <Route path='tasks' element={<TaskList />} />
         </Route>
+        <Route path='*' element={<Error404 />} />
       </Routes>
     </div>
   );
