@@ -5,13 +5,14 @@ import useTasks from '../../hooks/useTasks';
 
 export default function CreateTaskForm() {
   const {
+    validator,
     createTask
   } = useTasks();
 
   return (
     <>
     <div className='pageCenterContainer'>
-      <Form aria-label='form' noValidate validated={true} onSubmit={createTask}> 
+      <Form aria-label='form' noValidate validated={validator.validated} onSubmit={createTask}> 
         <h2> Create Task </h2>
         <Form.Group className='mb-3' controlId='formTitle'>
           <Form.Label>Title</Form.Label>
