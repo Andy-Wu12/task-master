@@ -34,8 +34,17 @@ const userResolvers = {
       const { username, password } = args;
       const result = await UserModel.loginUser(username, password);
 
+      const day = 24 * 60 * 60 * 1000;
+
       if('token' in result) {
-        await ctx.request.cookieStore?.set('token', result.token);
+        await ctx.request.cookieStore?.set({
+          name: 'token',
+          expires: Date.now() + day,
+          sameSite: 'none',
+          domain: 'delicate-tarsier-8ee16b.netlify.app',
+          secure: true,
+        },
+          result.token);
       }
 
       return result;
