@@ -14,7 +14,7 @@ async function setUserToken(ctx: YogaInitialContext, tokenValue: string) {
     expires: Date.now() + day,
     sameSite: 'none',
     domain: null,
-    secure: true,
+    secure: false,
   })
 
 }
