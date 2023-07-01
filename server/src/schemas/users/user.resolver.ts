@@ -5,6 +5,20 @@ import type { User } from "./users.mongo";
 
 import type { UserToken, UserError, UserAuthResult, UserAuthArgs } from "./userAuth";
 
+const day = 24 * 60 * 60 * 1000;
+
+async function setUserToken(ctx: YogaInitialContext, tokenValue: string) {
+  await ctx.request.cookieStore?.set({
+    name: 'token',
+    value: tokenValue,
+    expires: Date.now() + day,
+    sameSite: 'none',
+    domain: null,
+    secure: true,
+  })
+
+}
+
 const userResolvers = {
   Query: {
     users: async () => await UserModel.getAllUsers(),
@@ -23,7 +37,7 @@ const userResolvers = {
       if(!('error' in response)) {
         const result = await UserModel.loginUser(username, password);
         if('token' in result) {
-          await ctx.request.cookieStore?.set('token', result.token);
+          await setUserToken(ctx, result.token);
         }
       }
 
@@ -34,17 +48,8 @@ const userResolvers = {
       const { username, password } = args;
       const result = await UserModel.loginUser(username, password);
 
-      const day = 24 * 60 * 60 * 1000;
-
       if('token' in result) {
-        await ctx.request.cookieStore?.set({
-          name: 'token',
-          expires: Date.now() + day,
-          sameSite: 'none',
-          domain: 'delicate-tarsier-8ee16b.netlify.app',
-          secure: true,
-        },
-          result.token);
+        await setUserToken(ctx, result.token);
       }
 
       return result;
