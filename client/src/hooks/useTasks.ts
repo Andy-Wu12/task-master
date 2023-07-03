@@ -87,7 +87,7 @@ export default function useTasks() {
     // const json = await response.json();
     navigate('/dashboard/tasks');
 
-  }, [username, navigate]);
+  }, [username, navigate, validator]);
 
   const updateTask = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -123,7 +123,7 @@ export default function useTasks() {
     await queryGraphQL(queryBody);
     await fetchUserTasks();
     
-  }, []);
+  }, [fetchUserTasks, validator]);
 
   const deleteTask = useCallback(async (taskId: number) => {
     const queryBody = `mutation {

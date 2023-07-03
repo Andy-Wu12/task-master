@@ -1,0 +1,26 @@
+{
+  "name": "task-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install": "npm run install-server && npm run install-client",
+    "build-mono": "npm run build --prefix client && npm run build --prefix server",
+    "deploy-mono": "npm run build --prefix client && npm run deploy --prefix server",
+    "gcp-build": "npm run build-mono",
+    "start": "npm run start --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andy-Wu12/task-master.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andy-Wu12/task-master/issues"
+  },
+  "homepage": "https://github.com/Andy-Wu12/task-master#readme"
+}

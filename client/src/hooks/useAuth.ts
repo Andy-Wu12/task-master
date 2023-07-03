@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { errorReducer } from "../reducers/auth.reducer";
 
-import type { authFormAction, authFormError } from "../reducers/auth.reducer";
+import type { authFormError } from "../reducers/auth.reducer";
 import { AuthContext } from "../context/authContext";
 import useFormValidator from "./useFormValidator";
+import { queryGraphQL } from "./requests";
 
 type UserQueryResult = {
   username: string
@@ -29,7 +30,7 @@ function useAuth() {
   const toggleForm = useCallback(() => {
     setIsLogin(!isLogin);
     validator.setValidated(false);
-  }, [isLogin]);
+  }, [isLogin, validator]);
 
   const updateUserContext = useCallback((userData: UserQueryResult) => {
     authContext.setUser(userData);
@@ -62,13 +63,7 @@ function useAuth() {
         }
       }`;
 
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL!}/graphql`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/graphql"
-        },
-        body: queryBody
-      });
+      const response = await queryGraphQL(queryBody);
 
       const json = await response.json();
       if(json.data.signup) {
@@ -84,7 +79,7 @@ function useAuth() {
       }
     }
 
-  }, [updateUserContext, validator.validateForm]);
+  }, [updateUserContext, validator]);
 
   const submitLogin = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     const form = validator.validateForm(event);
@@ -113,15 +108,7 @@ function useAuth() {
         }
       }`;
 
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL!}/graphql`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/graphql",
-        },
-        body: queryBody,
-        mode: "cors",
-        credentials: "include"
-      });
+      const response = await queryGraphQL(queryBody);
 
       const json = await response.json();
       if(json.data.login) {
@@ -138,7 +125,7 @@ function useAuth() {
       
     }
 
-  }, [updateUserContext, validator.validateForm]);
+  }, [updateUserContext, validator]);
 
   return {
     validator,

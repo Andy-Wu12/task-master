@@ -9,3 +9,6 @@ build/
 # GCP
 .gcloudignore
 app.yaml
+
+# building
+public/

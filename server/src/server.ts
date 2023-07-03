@@ -12,7 +12,7 @@ async function startServer() {
   await mongoConnect(process.env.MONGO_URI!, 'taskTracker');
   
   server.listen(PORT, () => {
-    console.log('Running GraphQL server...');
+    console.log(`Running server on port ${PORT}...`);
   });
 }
 

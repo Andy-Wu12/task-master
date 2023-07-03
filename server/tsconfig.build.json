@@ -3,6 +3,7 @@
   "exclude": [
     "src/**/*.test.ts",
     "./node_modules/",
-    "./build"
+    "./build",
+    "./public" 
   ]
 }

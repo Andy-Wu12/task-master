@@ -1,6 +1,6 @@
 
 async function queryGraphQL(queryBody: string): Promise<any> {
-  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/graphql`, {
+  const response = await fetch(`${process.env.REACT_APP_API_ROUTE}/graphql`, {
     method: "POST",
     credentials: "include",
     headers: {
