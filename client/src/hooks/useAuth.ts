@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { errorReducer } from "../reducers/auth.reducer";
 
-import type { authFormAction, authFormError } from "../reducers/auth.reducer";
+import type { authFormError } from "../reducers/auth.reducer";
 import { AuthContext } from "../context/authContext";
 import useFormValidator from "./useFormValidator";
 
@@ -29,7 +29,7 @@ function useAuth() {
   const toggleForm = useCallback(() => {
     setIsLogin(!isLogin);
     validator.setValidated(false);
-  }, [isLogin]);
+  }, [isLogin, validator]);
 
   const updateUserContext = useCallback((userData: UserQueryResult) => {
     authContext.setUser(userData);
@@ -84,7 +84,7 @@ function useAuth() {
       }
     }
 
-  }, [updateUserContext, validator.validateForm]);
+  }, [updateUserContext, validator]);
 
   const submitLogin = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     const form = validator.validateForm(event);
@@ -138,7 +138,7 @@ function useAuth() {
       
     }
 
-  }, [updateUserContext, validator.validateForm]);
+  }, [updateUserContext, validator]);
 
   return {
     validator,

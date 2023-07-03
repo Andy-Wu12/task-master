@@ -54,7 +54,7 @@ function TaskListItem({task, updateTask, deleteTask}: TaskListItemProps) {
     description,
     status,
     dueDate,
-    creatorId
+    // creatorId
   } = task;
 
   const handleDeleteClick = async (_: MouseEvent<HTMLButtonElement>) => {
