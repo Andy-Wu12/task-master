@@ -12,7 +12,7 @@ async function setUserToken(ctx: YogaInitialContext, tokenValue: string) {
     name: 'token',
     value: tokenValue,
     expires: Date.now() + day,
-    sameSite: 'none',
+    sameSite: 'strict',
     domain: null,
     secure: true,
   })
