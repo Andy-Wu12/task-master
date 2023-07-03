@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use('/graphql', yoga);
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'build/public', 'index.html'));
 });
 
 export default app;
