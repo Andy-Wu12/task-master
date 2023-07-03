@@ -6,6 +6,7 @@ import { errorReducer } from "../reducers/auth.reducer";
 import type { authFormError } from "../reducers/auth.reducer";
 import { AuthContext } from "../context/authContext";
 import useFormValidator from "./useFormValidator";
+import { queryGraphQL } from "./requests";
 
 type UserQueryResult = {
   username: string
@@ -62,13 +63,7 @@ function useAuth() {
         }
       }`;
 
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL!}/graphql`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/graphql"
-        },
-        body: queryBody
-      });
+      const response = await queryGraphQL(queryBody);
 
       const json = await response.json();
       if(json.data.signup) {
@@ -113,15 +108,7 @@ function useAuth() {
         }
       }`;
 
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL!}/graphql`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/graphql",
-        },
-        body: queryBody,
-        mode: "cors",
-        credentials: "include"
-      });
+      const response = await queryGraphQL(queryBody);
 
       const json = await response.json();
       if(json.data.login) {

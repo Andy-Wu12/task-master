@@ -13,7 +13,7 @@ async function setUserToken(ctx: YogaInitialContext, tokenValue: string) {
     value: tokenValue,
     expires: Date.now() + day,
     sameSite: 'strict',
-    domain: null,
+    domain: 'task-master-390704.uc.r.appspot.com',
     secure: true,
   })
 
